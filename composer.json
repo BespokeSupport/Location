@@ -1,0 +1,23 @@
+{
+    "name": "bespoke-support/location",
+    "description": "Geo-location + Postcode Tools",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Seymour",
+            "email": "web@bespoke.support"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "BespokeSupport\\Location\\": "lib"
+        }
+    },
+    "suggests": {
+        "bespoke-support/database-wrapper" : "@dev"
+    },
+    "require-dev": {
+        "bespoke-support/database-wrapper" : "@dev"
+    }
+}
