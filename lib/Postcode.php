@@ -25,6 +25,10 @@ class Postcode
     CONST RxOutward = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])([0-9][A-Z]|[0-9]|[0-9][0-9])';
     //
     CONST RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
+    //
+    CONST RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])$)/';
+    CONST RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])/';
+    //
     /**
      * @var array
      */
@@ -72,11 +76,11 @@ class Postcode
     /**
      * @var string
      */
-    protected $schemaTableArea = 'postcode_area';
+    protected $schemaTableArea = 'postcode_areas';
     /**
      * @var string
      */
-    protected $schemaTableOutward = 'postcode_outward';
+    protected $schemaTableOutward = 'postcode_outwards';
     /**
      * @var string
      */
@@ -272,7 +276,7 @@ class Postcode
         }
 
         // Aware that this is not the official RegExp as the setters define whether the part is valid
-        $regularExpression = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s([0-9][A-Z][A-Z])$)/';
+        $regularExpression = self::RxComplete;
 
         $matches = array();
         preg_match($regularExpression, $postcode, $matches);
@@ -312,21 +316,26 @@ class Postcode
             return null;
         }
 
-        // fetch outward from database to geo-locate
-        if ($this->getPostcodeOutward()) {
+        // fetch postcode from database to geo-locate
+        if ($this->getPostcode()) {
             $row = $this->getDatabase()->find(
-                $this->schemaTableOutward,
-                $this->getPostcodeOutward(),
-                $this->schemaColumnOutward
+                $this->schemaTablePostcode,
+                $this->getPostcode(),
+                $this->schemaColumnPostcode
             );
 
             if ($row) {
                 $this->setLatitude($row->latitude);
                 $this->setLongitude($row->longitude);
-                $this->setTown($row->town);
             }
         }
+
+        // get additional information
+        if ($this->getPostcodeOutward()) {
+
+        }
     }
+
     /**
      * @return null|DatabaseWrapperInterface
      */
