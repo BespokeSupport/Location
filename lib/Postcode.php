@@ -327,6 +327,12 @@ class Postcode
             if ($row) {
                 $this->setLatitude($row->latitude);
                 $this->setLongitude($row->longitude);
+            } else {
+                $this->setPostcode(null);
+                $this->setPostcodeArea(null);
+                $this->setPostcodeInward(null);
+                $this->setPostcodeOutward(null);
+                return null;
             }
         }
 
