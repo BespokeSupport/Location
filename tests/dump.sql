@@ -5,8 +5,8 @@ DROP DATABASE IF EXISTS `tests`;
 CREATE DATABASE `tests` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `tests`;
 
-DROP TABLE IF EXISTS `postcode_outward`;
-CREATE TABLE `postcode_outward` (
+DROP TABLE IF EXISTS `postcode_outwards`;
+CREATE TABLE `postcode_outwards` (
   `postcode_outward` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
   `postcode_area` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
   `outward_part` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -25,5 +25,5 @@ CREATE TABLE `postcode_outward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-INSERT INTO `postcode_outward` (`postcode_outward`, `postcode_area`, `outward_part`, `eastings`, `northings`, `latitude`, `longitude`, `town`, `region`, `country_code`, `country_string`) VALUES
+INSERT INTO `postcode_outwards` (`postcode_outward`, `postcode_area`, `outward_part`, `eastings`, `northings`, `latitude`, `longitude`, `town`, `region`, `country_code`, `country_string`) VALUES
 ('AB10',	'AB',	'10',	392900,	804900,	57.1351,	-2.1173,	'Aberdeen',	'Aberdeen City',	'SCT',	'Scotland');
