@@ -103,7 +103,7 @@ class Postcode
 
         if ($postcode) {
             $this->validatePostcode($postcode);
-            $this->validatePostcodeViaDatabase();
+            $this->validateViaDatabase();
         }
     }
 
@@ -346,7 +346,7 @@ class Postcode
      * @param null $postcode
      * @return null
      */
-    public function validatePostcodeViaDatabase($postcode = null)
+    public function validateViaDatabase($postcode = null)
     {
         if ($postcode) {
             $this->validatePostcode($postcode);
@@ -358,29 +358,77 @@ class Postcode
 
         // fetch postcode from database to geo-locate
         if ($this->getPostcode()) {
-            $row = $this->getDatabase()->find(
-                $this->schemaTablePostcode,
-                $this->getPostcode(),
-                $this->schemaColumnPostcode
-            );
-
-            if ($row) {
-                $this->setLatitude($row->latitude);
-                $this->setLongitude($row->longitude);
-            } else {
-                $this->setPostcode(null);
-                $this->setPostcodeArea(null);
-                $this->setPostcodeInward(null);
-                $this->setPostcodeOutward(null);
-                return null;
-            }
+            $this->validatePostcodeViaDatabase();
         }
 
         // get additional information
         if ($this->getPostcodeOutward()) {
-
+            $this->validatePostcodeOutwardViaDatabase();
         }
     }
+
+    /**
+     * @param null $postcode
+     * @return null
+     */
+    public function validatePostcodeViaDatabase($postcode = null)
+    {
+        if (!$postcode) {
+            $postcode = $this->getPostcode();
+        }
+
+        $row = $this->getDatabase()->find(
+            $this->schemaTablePostcode,
+            $postcode,
+            $this->schemaColumnPostcode
+        );
+
+        if ($row) {
+            $this->setLatitude($row->latitude);
+            $this->setLongitude($row->longitude);
+        } else {
+            $this->setPostcode(null);
+            $this->setPostcodeArea(null);
+            $this->setPostcodeInward(null);
+            $this->setPostcodeOutward(null);
+            $this->setLatitude(null);
+            $this->setLongitude(null);
+            return null;
+        }
+    }
+
+    /**
+     * @param null $postcodeOutward
+     * @return null
+     */
+    public function validatePostcodeOutwardViaDatabase($postcodeOutward = null)
+    {
+        if (!$postcodeOutward) {
+            $postcodeOutward = $this->getPostcodeOutward();
+        }
+
+        $row = $this->getDatabase()->find(
+            $this->schemaTableOutward,
+            $postcodeOutward,
+            $this->schemaColumnOutward
+        );
+
+        if ($row) {
+            $this->setPostcodeOutward($row->postcode_outward);
+            $this->setPostcodeArea($row->postcode_area);
+            $this->setLatitude($row->latitude);
+            $this->setLongitude($row->longitude);
+        } else {
+            $this->setPostcode(null);
+            $this->setPostcodeArea(null);
+            $this->setPostcodeInward(null);
+            $this->setPostcodeOutward(null);
+            $this->setLatitude(null);
+            $this->setLongitude(null);
+            return null;
+        }
+    }
+
 
     /**
      * @return null|DatabaseWrapperInterface
