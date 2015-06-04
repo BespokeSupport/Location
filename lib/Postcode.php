@@ -19,6 +19,10 @@ use BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface;
  */
 class Postcode
 {
+    const ACCURACY_POSTCODE = 'postcode';
+    const ACCURACY_OUTWARD = 'outward';
+    const ACCURACY_AREA = 'area';
+
     // Regular Expression for Postcode Area
     CONST RxArea = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])';
     //
@@ -102,6 +106,42 @@ class Postcode
             $this->validatePostcodeViaDatabase();
         }
     }
+
+    /**
+     * @return null|string
+     */
+    public function getAccuracy()
+    {
+        switch (true) {
+
+            case $this->getPostcode():
+               return self::ACCURACY_POSTCODE;
+                break;
+
+            case $this->getPostcodeOutward():
+                return self::ACCURACY_OUTWARD;
+                break;
+
+            case $this->getPostcodeArea():
+                return self::ACCURACY_AREA;
+                break;
+
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getBestAccuracy()
+    {
+        if ($this->postcode) return $this->postcode;
+        if ($this->postcodeOutward) return $this->postcodeOutward;
+        if ($this->postcodeArea) return $this->postcodeArea;
+        return null;
+    }
+
     /**
      * @return float|null
      */
