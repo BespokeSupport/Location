@@ -14,7 +14,7 @@
             "BespokeSupport\\Location\\": "lib"
         }
     },
-    "suggests": {
+    "suggest": {
         "bespoke-support/database-wrapper" : "@dev"
     },
     "require-dev": {
