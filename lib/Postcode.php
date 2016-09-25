@@ -42,27 +42,27 @@ class Postcode
      */
     protected $database;
     /**
-     * @var
+     * @var float
      */
     protected $latitude;
     /**
-     * @var
+     * @var float
      */
     protected $longitude;
     /**
-     * @var
+     * @var string
      */
     protected $postcode;
     /**
-     * @var
+     * @var string
      */
     protected $postcodeArea;
     /**
-     * @var
+     * @var string
      */
     protected $postcodeInward;
     /**
-     * @var
+     * @var string
      */
     protected $postcodeOutward;
     /**
@@ -90,7 +90,7 @@ class Postcode
      */
     protected $schemaTablePostcode = 'postcodes';
     /**
-     * @var string|null
+     * @var string
      */
     protected $town;
     /**
@@ -105,6 +105,14 @@ class Postcode
             $this->validatePostcode($postcode);
             $this->validateViaDatabase();
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->postcode;
     }
 
     /**
