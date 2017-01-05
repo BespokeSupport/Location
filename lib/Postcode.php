@@ -112,7 +112,7 @@ class Postcode
      */
     public function __toString()
     {
-        return $this->postcode;
+        return $this->getPostcodeFormatted();
     }
 
     /**
