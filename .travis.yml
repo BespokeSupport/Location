@@ -6,10 +6,13 @@ php:
   - 5.6
   - 7.0
 
+services:
+  - mysql
+
 before_install:
-  - cat tests/prepare.sql | mysql -uroot
-  - cat schema.sql | mysql -uroot
-  - cat tests/dump.sql | mysql -uroot
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+  - cat schema.sql | mysql -utravis test
+  - cat tests/dump.sql | mysql -utravis test
 
 before_script:
   composer update --dev
