@@ -11,7 +11,7 @@ if (file_exists(dirname(__FILE__).'/credentials.php')) {
 } else {
     define('CREDENTIALS_TYPE', 'mysql');
     define('CREDENTIALS_HOST', 'localhost');
-    define('CREDENTIALS_NAME', 'tests');
+    define('CREDENTIALS_NAME', 'test');
     define('CREDENTIALS_USER', 'root');
     define('CREDENTIALS_PASS', '');
 }

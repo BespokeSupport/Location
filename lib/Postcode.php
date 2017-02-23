@@ -108,6 +108,35 @@ class Postcode
     }
 
     /**
+     * @param $postcode
+     * @return string
+     */
+    public static function clean($postcode)
+    {
+        return preg_replace('/[^A-Z0-9]/', '', strtoupper($postcode));
+    }
+
+    /**
+     * @param $postcode
+     * @param bool $requireFull
+     * @return Postcode|null
+     */
+    public static function create($postcode, $requireFull = false)
+    {
+        $obj = new self($postcode);
+
+        if ($requireFull && !$obj->getPostcode()) {
+            return null;
+        }
+
+        if (!$obj->getPostcodeArea()) {
+            return null;
+        }
+
+        return $obj;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -315,7 +344,7 @@ class Postcode
         }
 
         if ($postcode) {
-            $postcode = preg_replace('/[^A-Z0-9]/', '', strtoupper($postcode));
+            $postcode = self::clean($postcode);
         }
 
         // add in space
@@ -352,7 +381,6 @@ class Postcode
 
     /**
      * @param null $postcode
-     * @return null
      */
     public function validateViaDatabase($postcode = null)
     {
@@ -361,7 +389,7 @@ class Postcode
         }
 
         if (!$this->getDatabase()) {
-            return null;
+            return;
         }
 
         // fetch postcode from database to geo-locate
@@ -377,7 +405,6 @@ class Postcode
 
     /**
      * @param null $postcode
-     * @return null
      */
     public function validatePostcodeViaDatabase($postcode = null)
     {
@@ -401,13 +428,11 @@ class Postcode
             $this->setPostcodeOutward(null);
             $this->setLatitude(null);
             $this->setLongitude(null);
-            return null;
         }
     }
 
     /**
      * @param null $postcodeOutward
-     * @return null
      */
     public function validatePostcodeOutwardViaDatabase($postcodeOutward = null)
     {
@@ -433,7 +458,6 @@ class Postcode
             $this->setPostcodeOutward(null);
             $this->setLatitude(null);
             $this->setLongitude(null);
-            return null;
         }
     }
 
