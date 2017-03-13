@@ -14,8 +14,8 @@ class PostcodeValidationDatabaseTest extends \PHPUnit_Framework_TestCase
         $postcodeObject = new Postcode('AB10', $databaseConnection);
 
         $this->assertEquals('AB10', $postcodeObject->getPostcodeOutward());
-        $this->assertEquals(57.1, round($postcodeObject->getLatitude(),1));
-        $this->assertEquals(-2.1, round($postcodeObject->getLongitude(),1));
+        $this->assertEquals(57.1, round($postcodeObject->getLatitude(), 1));
+        $this->assertEquals(-2.1, round($postcodeObject->getLongitude(), 1));
     }
 
     public function testOutwardDirect()
@@ -27,8 +27,7 @@ class PostcodeValidationDatabaseTest extends \PHPUnit_Framework_TestCase
         $postcodeObject->validatePostcodeOutwardViaDatabase('AB10');
 
         $this->assertEquals('AB10', $postcodeObject->getPostcodeOutward());
-        $this->assertEquals(57.1, round($postcodeObject->getLatitude(),1));
-        $this->assertEquals(-2.1, round($postcodeObject->getLongitude(),1));
+        $this->assertEquals(57.1, round($postcodeObject->getLatitude(), 1));
+        $this->assertEquals(-2.1, round($postcodeObject->getLongitude(), 1));
     }
-
 }

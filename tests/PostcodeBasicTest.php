@@ -6,15 +6,15 @@ use BespokeSupport\Location\Postcode;
 
 class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
 {
-    public static $postcodeAreaValid = array(
+    public static $postcodeAreaValid = [
         'B',
         'N',
         'BA',
         'ZE',
-        'GY'
-    );
+        'GY',
+    ];
 
-    public static $postcodeAreaInValid = array(
+    public static $postcodeAreaInValid = [
         '1',
         '11',
         '111',
@@ -25,10 +25,10 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
         '11111111',
         '111111111',
         'C',
-        'Z'
-    );
+        'Z',
+    ];
 
-    public static $postcodeOutwardValid = array(
+    public static $postcodeOutwardValid = [
         'SW1A',
         'B9A',
         'B9',
@@ -41,10 +41,10 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
         ' B9 ',
         ' B99 ',
         ' B99 ',
-        ' BB99 '
-    );
+        ' BB99 ',
+    ];
 
-    public static $postcodeOutwardInValid = array(
+    public static $postcodeOutwardInValid = [
         'ALZ',
         'AL999',
         'A1A9',
@@ -65,10 +65,10 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
         '111111',
         '1111111',
         '11111111',
-        '111111111'
-    );
+        '111111111',
+    ];
 
-    public static $postcodeFullValid = array(
+    public static $postcodeFullValid = [
         'B1 1AA',
         'B11 1AA',
         'BB1 1AA',
@@ -87,11 +87,10 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
         ' B11  1AA ',
         ' BB1  1AA ',
         ' BB11  1AA',
-        ' B1A  1AA' ,
-        ' BB1A  1AA' ,
+        ' B1A  1AA',
+        ' BB1A  1AA',
 
-    );
-
+    ];
 
     public function testPostcodeGetters()
     {
@@ -133,7 +132,7 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
 
     public function testPostcodeInvalid()
     {
-        $postcodeObject = new Postcode(new \StdClass);
+        $postcodeObject = new Postcode(new \StdClass());
         $this->assertNull($postcodeObject->getPostcodeArea());
     }
 }
