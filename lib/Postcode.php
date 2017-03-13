@@ -1,11 +1,12 @@
 <?php
 /**
- * Postcode PHP Class
+ * Postcode PHP Class.
  *
  * PHP Version 5
  *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT
+ *
  * @link     https://github.com/BespokeSupport/Location
  */
 
@@ -14,8 +15,7 @@ namespace BespokeSupport\Location;
 use BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface;
 
 /**
- * Class Postcode
- * @package BespokeSupport\Location
+ * Class Postcode.
  */
 class Postcode
 {
@@ -24,19 +24,19 @@ class Postcode
     const ACCURACY_AREA = 'area';
 
     // Regular Expression for Postcode Area
-    CONST RxArea = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])';
+    const RxArea = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])';
     //
-    CONST RxOutward = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])([0-9][A-Z]|[0-9]|[0-9][0-9])';
+    const RxOutward = '([BEGLMNSW]|[A-PR-UWYZ][A-HK-Y])([0-9][A-Z]|[0-9]|[0-9][0-9])';
     //
-    CONST RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
+    const RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
     //
-    CONST RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])$)/';
-    CONST RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])/';
+    const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])$)/';
+    const RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])/';
     //
     /**
      * @var array
      */
-    public static $postcodeAreas = array('AB', 'AL', 'B', 'BA', 'BB', 'BD', 'BH', 'BL', 'BN', 'BR', 'BS', 'BT', 'BX', 'CA', 'CB', 'CF', 'CH', 'CM', 'CO', 'CR', 'CT', 'CV', 'CW', 'DA', 'DD', 'DE', 'DG', 'DH', 'DL', 'DN', 'DT', 'DY', 'E', 'EC', 'EH', 'EN', 'EX', 'FK', 'FY', 'G', 'GL', 'GU', 'GY', 'HA', 'HD', 'HG', 'HP', 'HR', 'HS', 'HU', 'HX', 'IG', 'IM', 'IP', 'IV', 'JE', 'KA', 'KT', 'KW', 'KY', 'L', 'LA', 'LD', 'LE', 'LL', 'LN', 'LS', 'LU', 'M', 'ME', 'MK', 'ML', 'N', 'NE', 'NG', 'NN', 'NP', 'NR', 'NW', 'OL', 'OX', 'PA', 'PE', 'PH', 'PL', 'PO', 'PR', 'RG', 'RH', 'RM', 'S', 'SA', 'SE', 'SG', 'SK', 'SL', 'SM', 'SN', 'SO', 'SP', 'SR', 'SS', 'ST', 'SW', 'SY', 'TA', 'TD', 'TF', 'TN', 'TQ', 'TR', 'TS', 'TW', 'UB', 'W', 'WA', 'WC', 'WD', 'WF', 'WN', 'WR', 'WS', 'WV', 'YO', 'ZE');
+    public static $postcodeAreas = ['AB', 'AL', 'B', 'BA', 'BB', 'BD', 'BH', 'BL', 'BN', 'BR', 'BS', 'BT', 'BX', 'CA', 'CB', 'CF', 'CH', 'CM', 'CO', 'CR', 'CT', 'CV', 'CW', 'DA', 'DD', 'DE', 'DG', 'DH', 'DL', 'DN', 'DT', 'DY', 'E', 'EC', 'EH', 'EN', 'EX', 'FK', 'FY', 'G', 'GL', 'GU', 'GY', 'HA', 'HD', 'HG', 'HP', 'HR', 'HS', 'HU', 'HX', 'IG', 'IM', 'IP', 'IV', 'JE', 'KA', 'KT', 'KW', 'KY', 'L', 'LA', 'LD', 'LE', 'LL', 'LN', 'LS', 'LU', 'M', 'ME', 'MK', 'ML', 'N', 'NE', 'NG', 'NN', 'NP', 'NR', 'NW', 'OL', 'OX', 'PA', 'PE', 'PH', 'PL', 'PO', 'PR', 'RG', 'RH', 'RM', 'S', 'SA', 'SE', 'SG', 'SK', 'SL', 'SM', 'SN', 'SO', 'SP', 'SR', 'SS', 'ST', 'SW', 'SY', 'TA', 'TD', 'TF', 'TN', 'TQ', 'TR', 'TS', 'TW', 'UB', 'W', 'WA', 'WC', 'WD', 'WF', 'WN', 'WR', 'WS', 'WV', 'YO', 'ZE'];
     /**
      * @var DatabaseWrapperInterface|null
      */
@@ -93,8 +93,9 @@ class Postcode
      * @var string
      */
     protected $town;
+
     /**
-     * @param null $postcode
+     * @param null                          $postcode
      * @param DatabaseWrapperInterface|null $database
      */
     public function __construct($postcode = null, DatabaseWrapperInterface $database = null)
@@ -109,6 +110,7 @@ class Postcode
 
     /**
      * @param $postcode
+     *
      * @return string
      */
     public static function clean($postcode)
@@ -119,6 +121,7 @@ class Postcode
     /**
      * @param $postcode
      * @param bool $requireFull
+     *
      * @return Postcode|null
      */
     public static function create($postcode, $requireFull = false)
@@ -126,11 +129,11 @@ class Postcode
         $obj = new self($postcode);
 
         if ($requireFull && !$obj->getPostcode()) {
-            return null;
+            return;
         }
 
         if (!$obj->getPostcodeArea()) {
-            return null;
+            return;
         }
 
         return $obj;
@@ -164,7 +167,7 @@ class Postcode
                 break;
 
             default:
-                return null;
+                return;
         }
     }
 
@@ -173,10 +176,15 @@ class Postcode
      */
     public function getBestAccuracy()
     {
-        if ($this->postcode) return $this->postcode;
-        if ($this->postcodeOutward) return $this->postcodeOutward;
-        if ($this->postcodeArea) return $this->postcodeArea;
-        return null;
+        if ($this->postcode) {
+            return $this->postcode;
+        }
+        if ($this->postcodeOutward) {
+            return $this->postcodeOutward;
+        }
+        if ($this->postcodeArea) {
+            return $this->postcodeArea;
+        }
     }
 
     /**
@@ -186,15 +194,19 @@ class Postcode
     {
         return $this->latitude;
     }
+
     /**
      * @param float|null $latitude
+     *
      * @return $this
      */
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
+
         return $this;
     }
+
     /**
      * @return float|null
      */
@@ -202,15 +214,19 @@ class Postcode
     {
         return $this->longitude;
     }
+
     /**
      * @param float|null $longitude
+     *
      * @return $this
      */
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+
         return $this;
     }
+
     /**
      * @return string|null
      */
@@ -218,15 +234,19 @@ class Postcode
     {
         return $this->postcode;
     }
+
     /**
      * @param string|null $postcode
+     *
      * @return $this
      */
     public function setPostcode($postcode)
     {
         $this->postcode = $postcode;
+
         return $this;
     }
+
     /**
      * @return string|null
      */
@@ -234,8 +254,10 @@ class Postcode
     {
         return $this->postcodeArea;
     }
+
     /**
      * @param string|null $area
+     *
      * @return $this
      */
     public function setPostcodeArea($area)
@@ -250,6 +272,7 @@ class Postcode
 
         return $this;
     }
+
     /**
      * @return array
      */
@@ -257,6 +280,7 @@ class Postcode
     {
         return self::$postcodeAreas;
     }
+
     /**
      * @return null|string
      */
@@ -266,11 +290,12 @@ class Postcode
         $postcodeOutward = $this->getPostcodeOutward();
 
         if (!$postcodeInward || !$postcodeOutward) {
-            return null;
+            return;
         }
 
-        return $postcodeOutward . ' ' . $postcodeInward;
+        return $postcodeOutward.' '.$postcodeInward;
     }
+
     /**
      * @return string|null
      */
@@ -278,8 +303,10 @@ class Postcode
     {
         return $this->postcodeInward;
     }
+
     /**
      * @param string|null $part
+     *
      * @return $this
      */
     public function setPostcodeInward($part)
@@ -294,6 +321,7 @@ class Postcode
 
         return $this;
     }
+
     /**
      * @return string|null
      */
@@ -301,8 +329,10 @@ class Postcode
     {
         return $this->postcodeOutward;
     }
+
     /**
      * @param string|null $part
+     *
      * @return $this
      */
     public function setPostcodeOutward($part)
@@ -317,6 +347,7 @@ class Postcode
 
         return $this;
     }
+
     /**
      * @return null|string
      */
@@ -324,23 +355,28 @@ class Postcode
     {
         return $this->town;
     }
+
     /**
      * @param null|string $town
+     *
      * @return $this
      */
     public function setTown($town)
     {
         $this->town = $town;
+
         return $this;
     }
+
     /**
      * @param $postcode
+     *
      * @return string|null
      */
     public function validatePostcode($postcode)
     {
         if (!is_string($postcode)) {
-            return null;
+            return;
         }
 
         if ($postcode) {
@@ -349,13 +385,13 @@ class Postcode
 
         // add in space
         if (strlen($postcode) >= 5) {
-            $postcode = preg_replace('/([0-9][A-Z][A-Z])$/is', " $1", $postcode, 1);
+            $postcode = preg_replace('/([0-9][A-Z][A-Z])$/is', ' $1', $postcode, 1);
         }
 
         // Aware that this is not the official RegExp as the setters define whether the part is valid
         $regularExpression = self::RxComplete;
 
-        $matches = array();
+        $matches = [];
         preg_match($regularExpression, $postcode, $matches);
 
         if (count($matches)) {
@@ -461,7 +497,6 @@ class Postcode
         }
     }
 
-
     /**
      * @return null|DatabaseWrapperInterface
      */
@@ -469,12 +504,16 @@ class Postcode
     {
         return $this->database;
     }
+
     /**
      * @param $database null|DatabaseWrapperInterface
+     *
      * @return $this
      */
-    public function setDatabase(DatabaseWrapperInterface $database = null) {
+    public function setDatabase(DatabaseWrapperInterface $database = null)
+    {
         $this->database = $database;
+
         return $this;
     }
 }

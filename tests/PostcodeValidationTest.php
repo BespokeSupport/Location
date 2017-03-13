@@ -17,7 +17,7 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($postcode->getPostcodeFormatted());
         }
     }
-    
+
     public function testAreaInValid()
     {
         foreach (PostcodeBasicTest::$postcodeAreaInValid as $o) {
@@ -29,7 +29,7 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($postcode->getPostcodeFormatted());
         }
     }
-    
+
     public function testOutwardValid()
     {
         foreach (PostcodeBasicTest::$postcodeOutwardValid as $o) {
@@ -41,7 +41,7 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($postcode->getPostcodeInward());
         }
     }
-    
+
     public function testOutwardInValid()
     {
         foreach (PostcodeBasicTest::$postcodeOutwardInValid as $o) {
@@ -53,7 +53,7 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($postcode->getPostcodeInward());
         }
     }
-    
+
     public function testPostcodeValid()
     {
         foreach (PostcodeBasicTest::$postcodeFullValid as $o) {
@@ -65,7 +65,7 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($postcode->getPostcodeInward());
         }
     }
-    
+
     public function testPostcodeFull()
     {
         $postcode = new Postcode(' BB1A  1AA ');
@@ -75,7 +75,6 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('BB1A1AA', $postcode->getPostcode());
         $this->assertEquals('BB1A 1AA', $postcode->getPostcodeFormatted());
     }
-
 
     public function testPostcodeInwardInvalid()
     {
