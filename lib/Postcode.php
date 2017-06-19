@@ -129,11 +129,11 @@ class Postcode
         $obj = new self($postcode);
 
         if ($requireFull && !$obj->getPostcode()) {
-            return;
+            return null;
         }
 
         if (!$obj->getPostcodeArea()) {
-            return;
+            return null;
         }
 
         return $obj;
@@ -167,7 +167,7 @@ class Postcode
                 break;
 
             default:
-                return;
+                return null;
         }
     }
 
@@ -185,6 +185,8 @@ class Postcode
         if ($this->postcodeArea) {
             return $this->postcodeArea;
         }
+
+        return null;
     }
 
     /**
@@ -290,7 +292,7 @@ class Postcode
         $postcodeOutward = $this->getPostcodeOutward();
 
         if (!$postcodeInward || !$postcodeOutward) {
-            return;
+            return null;
         }
 
         return $postcodeOutward.' '.$postcodeInward;
@@ -376,7 +378,7 @@ class Postcode
     public function validatePostcode($postcode)
     {
         if (!is_string($postcode)) {
-            return;
+            return null;
         }
 
         if ($postcode) {
