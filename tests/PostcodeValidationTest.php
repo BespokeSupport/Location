@@ -66,6 +66,18 @@ class PostcodeValidationTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testPostcodeInValid()
+    {
+        foreach (PostcodeBasicTest::$postcodeFullInValid as $o) {
+            $postcode = new Postcode($o);
+            $this->assertNull($postcode->getPostcodeOutward());
+            $this->assertNull($postcode->getPostcodeArea());
+            $this->assertNull($postcode->getPostcode());
+            $this->assertNull($postcode->getPostcodeFormatted());
+            $this->assertNull($postcode->getPostcodeInward());
+        }
+    }
+
     public function testPostcodeFull()
     {
         $postcode = new Postcode(' BB1A  1AA ');

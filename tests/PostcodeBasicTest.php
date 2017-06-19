@@ -68,6 +68,11 @@ class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
         '111111111',
     ];
 
+    public static $postcodeFullInValid = [
+        'C058BL',
+        'BI60EP',
+    ];
+
     public static $postcodeFullValid = [
         'B1 1AA',
         'B11 1AA',

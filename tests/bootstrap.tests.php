@@ -7,6 +7,8 @@ if (file_exists(dirname(__FILE__).'/../vendor/autoload.php')) {
 // load in credentials
 if (file_exists(dirname(__FILE__).'/credentials.php')) {
     include_once dirname(__FILE__).'/credentials.php';
+} elseif (file_exists(dirname(__FILE__, 2).'/credentials.php')) {
+    include_once dirname(__FILE__, 2).'/credentials.php';
 } else {
     define('CREDENTIALS_TYPE', 'mysql');
     define('CREDENTIALS_HOST', 'localhost');

@@ -406,7 +406,10 @@ class Postcode
                 $this->setPostcodeOutward($matches[2]);
             }
 
-            if (count($matches) == 8 && $matches[4] && $matches[5] && $matches[6] && $matches[7]) {
+            if (count($matches) == 8 &&
+                $matches[4] && $matches[5] && $matches[6] && $matches[7] &&
+                in_array($matches[6], self::$postcodeAreas)
+            ) {
                 $this->setPostcode(str_replace(' ', '', $matches[4]));
                 $this->setPostcodeArea($matches[6]);
                 $this->setPostcodeOutward($matches[5]);
