@@ -521,4 +521,18 @@ class Postcode
 
         return $this;
     }
+
+    /**
+     * @param string|null $str
+     * @return null
+     */
+    public static function getPostcodeStringInString($str = null)
+    {
+        // postcode extract
+        preg_match(self::RxInString, $str, $m);
+
+        $postcode = (count($m)) ? $m[0] : null;
+
+        return $postcode;
+    }
 }
