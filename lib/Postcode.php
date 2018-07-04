@@ -31,7 +31,8 @@ class Postcode
     const RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
     //
     const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])$)/';
-    const RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])/';
+    const RxSector = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9])$)/';
+    const RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z]))/';
     //
     /**
      * @var array
@@ -41,26 +42,30 @@ class Postcode
      * @var DatabaseWrapperInterface|null
      */
     protected $database;
-    /**
-     * @var float
+    /**|
+     * @var float|null
      */
     protected $latitude;
     /**
-     * @var float
+     * @var float|null
      */
     protected $longitude;
     /**
-     * @var string
+     * @var string|null
      */
     protected $postcode;
     /**
-     * @var string
+     * @var string|null
      */
     protected $postcodeArea;
     /**
-     * @var string
+     * @var string|null
      */
     protected $postcodeInward;
+    /**
+     * @var string|null
+     */
+    protected $postcodeSector;
     /**
      * @var string
      */
@@ -140,6 +145,30 @@ class Postcode
     }
 
     /**
+     * @param $postcode
+     *
+     * @return Postcode|null
+     */
+    public static function createSector($postcode)
+    {
+        $matches = [];
+
+        preg_match(self::RxSector, preg_replace('/[^A-Z0-9\s]/', '', strtoupper($postcode)), $matches);
+
+        if (count($matches) != 8) {
+            return null;
+        }
+
+        $obj = new self;
+
+        $obj->setPostcodeArea($matches[6]);
+        $obj->setPostcodeOutward($matches[5]);
+        $obj->setPostcodeSector($matches[7]);
+
+        return $obj;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -155,7 +184,7 @@ class Postcode
         switch (true) {
 
             case $this->getPostcode():
-               return self::ACCURACY_POSTCODE;
+                return self::ACCURACY_POSTCODE;
                 break;
 
             case $this->getPostcodeOutward():
@@ -353,6 +382,22 @@ class Postcode
     /**
      * @return null|string
      */
+    public function getPostcodeSector()
+    {
+        return $this->postcodeSector;
+    }
+
+    /**
+     * @param null|string $postcodeSector
+     */
+    public function setPostcodeSector($postcodeSector)
+    {
+        $this->postcodeSector = $postcodeSector;
+    }
+
+    /**
+     * @return null|string
+     */
     public function getTown()
     {
         return $this->town;
@@ -531,8 +576,10 @@ class Postcode
         // postcode extract
         preg_match(self::RxInString, $str, $m);
 
-        $postcode = (count($m)) ? $m[0] : null;
+        if (!count($m)) {
+            return null;
+        }
 
-        return $postcode;
+        return Postcode::clean($m[0]);
     }
 }
