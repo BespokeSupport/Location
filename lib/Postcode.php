@@ -30,9 +30,9 @@ class Postcode
     //
     const RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
     //
-    const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9][A-Z][A-Z])$)/';
+    const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z])$)/';
     const RxSector = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9])$)/';
-    const RxInString = '/(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z]))/';
+    const RxInString = '/((([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z]))/';
     //
     /**
      * @var array
@@ -451,7 +451,7 @@ class Postcode
                 $this->setPostcodeOutward($matches[2]);
             }
 
-            if (count($matches) == 8 &&
+            if (count($matches) == 9 &&
                 $matches[4] && $matches[5] && $matches[6] && $matches[7] &&
                 in_array($matches[6], self::$postcodeAreas)
             ) {
@@ -459,6 +459,7 @@ class Postcode
                 $this->setPostcodeArea($matches[6]);
                 $this->setPostcodeOutward($matches[5]);
                 $this->setPostcodeInward($matches[7]);
+                $this->setPostcodeSector($matches[8]);
             }
         }
 
