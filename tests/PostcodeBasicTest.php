@@ -3,8 +3,9 @@
 namespace BespokeSupport\Location\Test;
 
 use BespokeSupport\Location\Postcode;
+use PHPUnit\Framework\TestCase;
 
-class PostcodeBasicTest extends \PHPUnit_Framework_TestCase
+class PostcodeBasicTest extends TestCase
 {
     public static $postcodeAreaValid = [
         'B',

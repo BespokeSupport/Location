@@ -1,4 +1,6 @@
 
+CREATE DATABASE IF NOT EXISTS test;
+
 SET foreign_key_checks = 0;
 
 CREATE TABLE IF NOT EXISTS  `postcode_areas` (
