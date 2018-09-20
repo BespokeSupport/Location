@@ -30,9 +30,9 @@ class Postcode
     //
     const RxInward = '([0-9][ABD-HJLN-UW-Z]{2})';
     //
-    const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z])$)/';
+    const RxComplete = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[ABD-HJLN-UW-Z]{2})$)/';
     const RxSector = '/(^[A-Z]{1,2}$)|(^([A-Z]{1,2})\d{1,2}[A-Z]?$)|(^(([A-Z]{1,2})\d{1,2}[A-Z]?)\s*([0-9])$)/';
-    const RxInString = '/((([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[A-Z][A-Z]))/';
+    const RxInString = '/((([A-Z]{1,2})\d{1,2}[A-Z]?)\s*(([0-9])[ABD-HJLN-UW-Z]{2}))/';
     //
     /**
      * @var array
@@ -155,7 +155,7 @@ class Postcode
 
         preg_match(self::RxSector, preg_replace('/[^A-Z0-9\s]/', '', strtoupper($postcode)), $matches);
 
-        if (count($matches) != 8) {
+        if (count($matches) !== 8) {
             return null;
         }
 
@@ -173,7 +173,7 @@ class Postcode
      */
     public function __toString()
     {
-        return $this->getPostcodeFormatted();
+        return (string)$this->getPostcodeFormatted();
     }
 
     /**
@@ -441,19 +441,21 @@ class Postcode
         $matches = [];
         preg_match($regularExpression, $postcode, $matches);
 
-        if (count($matches)) {
-            if (count($matches) == 2 && $matches[0]) {
+        $cMatches = count($matches);
+
+        if ($cMatches) {
+            if ($cMatches === 2 && $matches[0]) {
                 $this->setPostcodeArea($matches[0]);
             }
 
-            if (count($matches) == 4 && $matches[2] && $matches[3]) {
+            if ($cMatches === 4 && $matches[2] && $matches[3]) {
                 $this->setPostcodeArea($matches[3]);
                 $this->setPostcodeOutward($matches[2]);
             }
 
-            if (count($matches) == 9 &&
+            if ($cMatches === 9 &&
                 $matches[4] && $matches[5] && $matches[6] && $matches[7] &&
-                in_array($matches[6], self::$postcodeAreas)
+                in_array($matches[6], self::$postcodeAreas, true)
             ) {
                 $this->setPostcode(str_replace(' ', '', $matches[4]));
                 $this->setPostcodeArea($matches[6]);
@@ -495,11 +497,15 @@ class Postcode
      */
     public function validatePostcodeViaDatabase($postcode = null)
     {
+        if (!$this->database) {
+            return;
+        }
+
         if (!$postcode) {
             $postcode = $this->getPostcode();
         }
 
-        $row = $this->getDatabase()->find(
+        $row = $this->database->find(
             $this->schemaTablePostcode,
             $postcode,
             $this->schemaColumnPostcode
@@ -523,11 +529,15 @@ class Postcode
      */
     public function validatePostcodeOutwardViaDatabase($postcodeOutward = null)
     {
+        if (!$this->database) {
+            return;
+        }
+
         if (!$postcodeOutward) {
             $postcodeOutward = $this->getPostcodeOutward();
         }
 
-        $row = $this->getDatabase()->find(
+        $row = $this->database->find(
             $this->schemaTableOutward,
             $postcodeOutward,
             $this->schemaColumnOutward
@@ -581,6 +591,6 @@ class Postcode
             return null;
         }
 
-        return Postcode::clean($m[0]);
+        return self::clean($m[0]);
     }
 }
